@@ -1,7 +1,7 @@
 import random
 import unittest
 
-from BoundedStack import BoundedStack
+from BoundedStack2 import BoundedStack
 
 
 class TestBoundedStackOneItem(unittest.TestCase):
@@ -13,6 +13,7 @@ class TestBoundedStackOneItem(unittest.TestCase):
 
     def test_one_item_size(self):
         self.assertEqual(self.s_stack.size(), 1)
+        self.assertEqual(self.s_stack._size, 32)
 
     def test_one_item_push(self):
         len_stack = self.s_stack.size()
@@ -39,6 +40,9 @@ class TestBoundedStackOneItem(unittest.TestCase):
         self.assertEqual(self.s_stack.size(), len_stack)
         self.assertEqual(self.s_stack._items, [self.number])
 
+    def test_one_item_max_size(self):
+        self.assertEqual(self.s_stack.max_size(), 32)
+
 
 class TestBoundedStackEmpty(unittest.TestCase):
 
@@ -47,6 +51,7 @@ class TestBoundedStackEmpty(unittest.TestCase):
 
     def test_empty_size(self):
         self.assertEqual(self.s_stack.size(), 0)
+        self.assertEqual(self.s_stack._size, 32)
 
     def test_empty_push(self):
         len_stack = self.s_stack.size()
@@ -73,6 +78,9 @@ class TestBoundedStackEmpty(unittest.TestCase):
         self.assertEqual(self.s_stack.size(), len_stack)
         self.assertEqual(self.s_stack._items, [])
 
+    def test_empty_max_size(self):
+        self.assertEqual(self.s_stack.max_size(), 32)
+
 
 class TestBoundedStackFull(unittest.TestCase):
 
@@ -85,6 +93,7 @@ class TestBoundedStackFull(unittest.TestCase):
 
     def test_many_items_size(self):
         self.assertEqual(self.s_stack.size(), len(self.items_list))
+        self.assertEqual(self.s_stack._size, 32)
 
     def test_many_items_push(self):
         new_item = 1000
@@ -117,6 +126,9 @@ class TestBoundedStackFull(unittest.TestCase):
         self.assertEqual(self.s_stack.get_peek_status(), 1)
         self.assertEqual(self.s_stack.size(), len(self.items_list))
         self.assertListEqual(self.s_stack._items, self.items_list)
+
+    def test_many_items_max_size(self):
+        self.assertEqual(self.s_stack.max_size(), 32)
 
 
 if __name__ == '__main__':
