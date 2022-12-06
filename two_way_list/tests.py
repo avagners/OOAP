@@ -22,15 +22,15 @@ class TestLinkedList2OneItem(unittest.TestCase):
         self.assertIsNone(self.node.next)
         self.assertIsNone(self.node.prev)
 
-    def test_one_item_add_in_tail(self):
-        self.s_list.add_tail(101)
-        self.assertEqual(self.s_list.size(), 2)
-        self.assertEqual(self.s_list.head_cursor, self.node)
-        self.assertEqual(self.s_list.tail_cursor, new_node)
-        self.assertEqual(self.node.next, new_node)
-        self.assertIsNone(self.node.prev)
-        self.assertEqual(new_node.prev, self.node)
-        self.assertIsNone(new_node.next)
+    # def test_one_item_add_in_tail(self):
+    #     self.s_list.add_tail(101)
+    #     self.assertEqual(self.s_list.size(), 2)
+    #     self.assertEqual(self.s_list.head_cursor, self.node)
+    #     self.assertEqual(self.s_list.tail_cursor, new_node)
+    #     self.assertEqual(self.node.next, new_node)
+    #     self.assertIsNone(self.node.prev)
+    #     self.assertEqual(new_node.prev, self.node)
+    #     self.assertIsNone(new_node.next)
 
     # def test_one_item_find(self):
     #     result = self.s_list.find(self.number)
