@@ -16,7 +16,7 @@ class AbsDynArray(ABC, Generic[T]):
     @abstractmethod
     def append(self, value: T) -> None: ...
     # предусловие: i в границах массива;
-    # постусловие: значение элемента i изменено на T;
+    # постусловие: новый элемент вставлен в i-позицию
     @abstractmethod
     def insert(self, i: int, value: T) -> None: ...
     # предусловие: i в границах массива;
