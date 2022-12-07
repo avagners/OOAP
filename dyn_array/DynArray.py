@@ -108,6 +108,7 @@ class DynArray(AbsDynArray):
         if i < 0 or i >= self.count:
             self._get_status = self.GET_ERR
             return
+        self._get_status = self.GET_OK
         return self.array[i]
 
     def get_insert_status(self) -> int:
