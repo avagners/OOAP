@@ -53,7 +53,7 @@ class AbsDeque(ParentQueue):
     # Команды:
     # постусловие: новый элемент добавлен в начало очереди
     @abstractmethod
-    def add_head(self, value: T) -> None: ...
+    def add_front(self, value: T) -> None: ...
     # предусловие: очередь не пустая
     # постусловие: элемент удален из хвоста очереди
     @abstractmethod
@@ -102,7 +102,7 @@ class Deque(AbsDeque):
     def add_tail(self, value: T) -> None:
         self.deque.append(value)
 
-    def add_head(self, value: T) -> None:
+    def add_front(self, value: T) -> None:
         self.deque.insert(0, value)
 
     def remove_front(self) -> None:
@@ -132,6 +132,9 @@ class Deque(AbsDeque):
             return
         self._get_tail_status = self.GET_TAIL_OK
         return self.deque[-1]
+
+    def size(self) -> int:
+        return len(self.deque)
 
     def get_remove_front_status(self) -> int:
         return self._remove_front_status
