@@ -99,3 +99,9 @@ class HashTable(AbsHashTable):
             if index >= self._size:
                 index %= self._size
             count += 1
+
+    def get_put_status(self) -> int:
+        return self._put_status
+
+    def get_remove_status(self) -> int:
+        return self._remove_status
