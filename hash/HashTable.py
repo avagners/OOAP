@@ -53,16 +53,17 @@ class HashTable(AbsHashTable):
         super().__init__(size)
         self._size = size
         self._step = 3
+        self._count = 0
         self.slots = [None] * self._size
         self._put_status = self.PUT_NIL
         self._remove_status = self.REMOVE_NIL
 
     def _hash_fun(self, value: int) -> int:
-        hash = sum([ord(sym) for sym in value]) % self.size
+        hash = sum([ord(sym) for sym in value]) % self._size
         return hash
 
     def _seek_slot(self, value: int):
-        index = self.hash_fun(value)
+        index = self._hash_fun(value)
         count = 0
         while count < self._size:
             if not self.slots[index]:
@@ -78,8 +79,9 @@ class HashTable(AbsHashTable):
         if not index:
             self._put_status = self.PUT_ERR
             return
-        self._put_status = self.PUT_OK
         self.slots[index] = value
+        self._count += 1
+        self._put_status = self.PUT_OK
 
     def find(self, value: T) -> bool:
         return value in self.slots
@@ -88,11 +90,12 @@ class HashTable(AbsHashTable):
         if not self.find(value):
             self._remove_status = self.REMOVE_ERR
             return
-        index = self.hash_fun(value)
+        index = self._hash_fun(value)
         count = 0
         while count < self._size:
             if self.slots[index] == value:
                 self.slots[index] = None
+                self._count -= 1
                 self._remove_status = self.REMOVE_OK
                 return
             index += self._step
@@ -105,3 +108,6 @@ class HashTable(AbsHashTable):
 
     def get_remove_status(self) -> int:
         return self._remove_status
+
+    def size(self) -> int:
+        return self._count
