@@ -84,7 +84,16 @@ class HashTable(AbsHashTable):
         self._put_status = self.PUT_OK
 
     def find(self, value: T) -> bool:
-        return value in self.slots
+        index = self._hash_fun(value)
+        count = 0
+        while count < self._size:
+            if self.slots[index] == value:
+                return True
+            index += self._step
+            if index >= self._size:
+                index %= self._size
+            count += 1
+        return False
 
     def remove(self, value: T) -> None:
         if not self.find(value):
@@ -103,11 +112,11 @@ class HashTable(AbsHashTable):
                 index %= self._size
             count += 1
 
+    def size(self) -> int:
+        return self._count
+
     def get_put_status(self) -> int:
         return self._put_status
 
     def get_remove_status(self) -> int:
         return self._remove_status
-
-    def size(self) -> int:
-        return self._count
