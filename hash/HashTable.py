@@ -24,9 +24,6 @@ class AbsHashTable(ABC, Generic[T]):
     # Запросы:
     @abstractmethod
     def find(self, value: T) -> bool: ...  # есть значение в таблице или нет
-    # предусловие: в таблице есть запрашиваемое значение
-    @abstractmethod
-    def get(self, value: T) -> T: ...  # значение из таблицы
     @abstractmethod
     def size(self) -> int: ...  # кол-во заполненных слотов в таблице
 
@@ -40,6 +37,65 @@ class AbsHashTable(ABC, Generic[T]):
     def get_remove_status(self) -> int: ...  # успешно;
     # в таблице нет запрашиваемого значения
 
-    @abstractmethod
-    def get_get_status(self) -> int: ...  # успешно;
-    # в таблице нет запрашиваемого значения
+
+# Реализация HashTable
+class HashTable(AbsHashTable):
+
+    PUT_NIL = 0  # put() не вызывался
+    PUT_OK = 1  # успешно добавлено новое значение в таблицу
+    PUT_ERR = 2  # в таблице нет свободных слотов
+
+    REMOVE_NIL = 0  # remove() не вызывался
+    REMOVE_OK = 1  # успешно значение удалено из таблицы
+    REMOVE_ERR = 2  # значения нет в таблице
+
+    def __init__(self, size: int) -> None:
+        super().__init__(size)
+        self._size = size
+        self._step = 3
+        self.slots = [None] * self._size
+        self._put_status = self.PUT_NIL
+        self._remove_status = self.REMOVE_NIL
+
+    def _hash_fun(self, value: int) -> int:
+        hash = sum([ord(sym) for sym in value]) % self.size
+        return hash
+
+    def _seek_slot(self, value: int):
+        index = self.hash_fun(value)
+        count = 0
+        while count < self._size:
+            if not self.slots[index]:
+                return index
+            index += self._step
+            if index >= self._size:
+                index %= self._size
+            count += 1
+        return None
+
+    def put(self, value: T) -> None:
+        index = self._seek_slot(value)
+        if not index:
+            self._put_status = self.PUT_ERR
+            return
+        self._put_status = self.PUT_OK
+        self.slots[index] = value
+
+    def find(self, value: T) -> bool:
+        return value in self.slots
+
+    def remove(self, value: T) -> None:
+        if not self.find(value):
+            self._remove_status = self.REMOVE_ERR
+            return
+        index = self.hash_fun(value)
+        count = 0
+        while count < self._size:
+            if self.slots[index] == value:
+                self.slots[index] = None
+                self._remove_status = self.REMOVE_OK
+                return
+            index += self._step
+            if index >= self._size:
+                index %= self._size
+            count += 1
