@@ -23,7 +23,7 @@ class ProcessSettings(ABC, Generic[T]):
     def get_email_list(self) -> list: ...  # получен список рассылки
 
 
-class ProcessSettingsV2(ProcessSettings, dict):
+class ProcessSettingsV2(ProcessSettings):
     '''
     Класс содержит методы извлечения данных из настроек, которые
     были получены через API v.2.0.
