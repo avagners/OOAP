@@ -43,7 +43,7 @@ class General(object):
 
     # наглядное представление содержимого объекта в текстовом формате
     @final
-    def print_attributes(self) -> str:
+    def attributes(self) -> str:
         return f'attributes: {self.__dict__}'
 
     # сравнение объектов (включая глубокий вариант)

@@ -34,14 +34,14 @@ class Tests(unittest.TestCase):
         self.assertIsInstance(self.b_obj.type(), str)
 
     def test_print_attr(self):
-        self.assertIsInstance(self.a_obj.print_attributes(), str)
+        self.assertIsInstance(self.a_obj.attributes(), str)
         self.assertEqual(
-            self.a_obj.print_attributes(),
+            self.a_obj.attributes(),
             "attributes: {'content': [1, 2, 3], 'name': 'Jack'}"
         )
-        self.assertIsInstance(self.b_obj.print_attributes(), str)
+        self.assertIsInstance(self.b_obj.attributes(), str)
         self.assertEqual(
-            self.b_obj.print_attributes(),
+            self.b_obj.attributes(),
             "attributes: {}"
         )
 
