@@ -56,6 +56,10 @@ class Character(ABC, Generic[T]):
     DAMAGE_OK = 1  # успешно нанесен урон на n-единиц
     DAMAGE_ERR = 2  # показатель здоровья меньше нуля
 
+    RECUPERATE_NIL = 0  # recuperate() не вызывался
+    RECUPERATE_OK = 1  # успешно восстановлено здоровье на n-единиц
+    RECUPERATE_ERR = 2  # показатель здоровья 100%
+
     # Конструктор
     # постусловие: создан объект, который содержит поля
     # - индикаторы персонажа CharacterIndicator
@@ -93,9 +97,9 @@ class Character(ABC, Generic[T]):
 class AbstractEnemy(ABC, Generic[T]):
 
     # Статусы
-    HIT_NIL = 0  # hit() не вызывался
-    HIT_OK = 1  # успешно нанесен урон на n-единиц
-    HIT_ERR = 2  # показатель меньше нуля
+    DAMAGE_NIL = 0  # damage() не вызывался
+    DAMAGE_OK = 1  # успешно нанесен урон на n-единиц
+    DAMAGE_ERR = 2  # показатель здоровья меньше нуля
 
     # Конструктор
     # постусловие: создан объект, который содержит поля
@@ -104,15 +108,15 @@ class AbstractEnemy(ABC, Generic[T]):
     def __init__(self) -> None: ...
 
     # Команды:
-    # предусловие: значение показателя больше нуля
-    # постусловие: уменьшает показатель на n-единиц
+    # предусловие: значение показателя здоровья больше нуля
+    # постусловие: уменьшает показатель здоровья на n-единиц
     @abstractmethod
-    def hit(self, n: int) -> None: ...
+    def damage(self, n: int) -> None: ...
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
     @abstractmethod
-    def get_hit_status(self) -> int: ...  # успешно;
+    def get_damage_status(self) -> int: ...  # успешно;
     # показатель меньше нуля;
 
 
