@@ -16,6 +16,10 @@ class AbstractSettings(ABC, Generic[T]):
     def __init__(self) -> None: ...
 
     # Команды:
+    # предусловие: ключа нет в словаре
+    # постусловие: добавлены ключ/значение в словарь
+    @abstractmethod
+    def add(self, key: str, value: T) -> None: ...
     # предусловие: ключ с настройкой есть в словаре
     # постусловие: значение настройки изменено по ключу
     @abstractmethod
@@ -27,13 +31,16 @@ class AbstractSettings(ABC, Generic[T]):
 
     # предусловие: запрашиваемый ключ есть в массиве
     @abstractmethod
-    def get(self, key: str) -> T: ...  # получено значение по ключу
+    def get_value(self, key: str) -> T: ...  # получено значение по ключу
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
     @abstractmethod
     def get_change_status(self) -> int: ...  # обновлено значение по ключу
     # ключ отстутствует;
+    @abstractmethod
+    def get_add_status(self) -> int: ...  # добавлена новая пара ключ-значение
+    # ключ уже есть в словаре;
 
 
 # АТД Игровой движок.

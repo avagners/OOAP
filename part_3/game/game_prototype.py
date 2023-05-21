@@ -1,26 +1,17 @@
 import arcade
 from characters import Enemy, Player
 from items import Coin
-
-# Константы для размеров экрана
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 800
-SCREEN_TITLE = "Mira and Gosha Prototype"
-
-# Константы для гравитации и скорости прыжка
-PLAYER_JUMP_SPEED = 15
-PLAYER_GRAVITY = 0.5
-PLAYER_MOVEMENT_SPEED = 15
-
-# Константы для размеров игрока
-PLAYER_WIDTH = 64
-PLAYER_HEIGHT = 64
+from settings import Settings
 
 
 class MyGame(arcade.Window):
 
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+    def __init__(self, settings: Settings):
+        super().__init__(
+            settings.get_value("SCREEN_WIDTH"),
+            settings.get_value("SCREEN_HEIGHT"),
+            settings.get_value('SCREEN_TITLE')
+        )
         arcade.set_background_color(arcade.color.SKY_BLUE)
 
         # Создаем игрока
@@ -48,15 +39,28 @@ class MyGame(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.LEFT:
-            self.player.x -= PLAYER_MOVEMENT_SPEED
+            self.player.x -= settings.get_value("PLAYER_MOVEMENT_SPEED")
         elif key == arcade.key.RIGHT:
-            self.player.x += PLAYER_MOVEMENT_SPEED
+            self.player.x += settings.get_value("PLAYER_MOVEMENT_SPEED")
         elif key == arcade.key.UP:
-            self.player.y += PLAYER_JUMP_SPEED
+            self.player.y += settings.get_value("PLAYER_JUMP_SPEED")
         elif key == arcade.key.DOWN:
-            self.player.y -= PLAYER_MOVEMENT_SPEED
+            self.player.y -= settings.get_value("PLAYER_MOVEMENT_SPEED")
 
 
 if __name__ == "__main__":
-    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    settings = Settings(
+        # Константы для размеров экрана
+        SCREEN_WIDTH=1200,
+        SCREEN_HEIGHT=800,
+        SCREEN_TITLE="Mira and Gosha Prototype",
+        # Константы для гравитации и скорости прыжка
+        PLAYER_JUMP_SPEED=15,
+        PLAYER_GRAVITY=0.5,
+        PLAYER_MOVEMENT_SPEED=15,
+        # Константы для размеров игрока
+        PLAYER_WIDTH=64,
+        PLAYER_HEIGHT=64
+    )
+    window = MyGame(settings)
     arcade.run()
