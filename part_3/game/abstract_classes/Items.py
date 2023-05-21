@@ -5,9 +5,13 @@ T = TypeVar('T')
 
 
 # АТД Игровой предмет.
-class Item(ABC, Generic[T]):
+class AbstractItem(ABC, Generic[T]):
 
     # Статусы
+    USE_NIL = 0  # delete() не вызывался
+    USE_OK = 1  # предмет успешно удален
+    USE_ERR = 2  # ошибка удаления предмета
+
     DELETE_NIL = 0  # delete() не вызывался
     DELETE_OK = 1  # предмет успешно удален
     DELETE_ERR = 2  # ошибка удаления предмета
@@ -21,18 +25,31 @@ class Item(ABC, Generic[T]):
     def __init__(self) -> None: ...
 
     # Команды:
-    # постусловие: предмет удален с карты
+    # постусловие: предмет использован
+    @abstractmethod
+    def use(self) -> None: ...
+
+    # постусловие: предмет удален
     @abstractmethod
     def delete(self) -> None: ...
+
+    # постусловие: предмет помещен в хранилище и удален с карты
+    @abstractmethod
+    def get(self) -> None: ...
 
     # Запросы:
     @abstractmethod
     def get_info(self) -> dict: ...  # информация о предмете
 
+    @abstractmethod
+    def get_name(self) -> str: ...  # название предмета
+
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
     @abstractmethod
-    def get_delete_status(self) -> int: ...  # успешно; ошибка;
+    def get_use_status(self) -> int: ...  # успешно; ошибка;
+    @abstractmethod
+    def get_get_status(self) -> int: ...  # успешно; ошибка;
 
 
 # АТД Фабрика предметов.
@@ -50,7 +67,7 @@ class AbstractItemFactory(ABC, Generic[T]):
     # Команды:
     # постусловие: создан объект типа Item
     @abstractmethod
-    def build_item(self) -> Item: ...
+    def build_item(self) -> AbstractItem: ...
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
@@ -78,14 +95,14 @@ class Store(ABC, Generic[T]):
     # постусловие: предмет удален из магазина
     # и помещен в хранилище персонажа;
     @abstractmethod
-    def buy(self, item: Item) -> None: ...
+    def buy(self, item: AbstractItem) -> None: ...
 
     # Запросы:
     @abstractmethod
-    def get_items(self) -> List[Item]: ...  # список товаров в магазине
+    def get_items(self) -> List[AbstractItem]: ...  # список товаров в магазине
 
     @abstractmethod
-    def check_item(self, item_type: Item) -> bool: ...  # наличие предмета
+    def check_item(self, item_type: AbstractItem) -> bool: ...  # наличие предмета
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
@@ -95,7 +112,7 @@ class Store(ABC, Generic[T]):
 
 
 # АТД Хранилище предметов персонажа.
-class Storage(ABC, Generic[T]):
+class AbstractStorage(ABC, Generic[T]):
 
     # Статусы
     DELETE_ITEM_NIL = 0  # delete_item() не вызывался
@@ -118,23 +135,23 @@ class Storage(ABC, Generic[T]):
     # предусловие: есть предмет в хранилище;
     # постусловие: предмет удален из хранилища;
     @abstractmethod
-    def delete_item(self, item: Item) -> None: ...
+    def delete_item(self, item: AbstractItem) -> None: ...
 
     # предусловие: есть свободное место в хранилище;
     # постусловие: предмет добавлен в хранилище;
     @abstractmethod
-    def add_item(self, item: Item) -> None: ...
+    def add_item(self, item: AbstractItem) -> None: ...
 
     # предусловие: есть предмет в хранилище;
     # постусловие: предмет удален из хранилища,
     # предмет перемещен в магазин,
     # увеличено кол-во монет в показателях персонажа;
     @abstractmethod
-    def sell_item(self, item: Item) -> None: ...
+    def sell_item(self, item: AbstractItem) -> None: ...
 
     # Запросы:
     @abstractmethod
-    def get_items(self) -> List[Item]: ...  # список предметов в хранилище
+    def get_items(self) -> List[AbstractItem]: ...  # список предметов в хранилище
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
