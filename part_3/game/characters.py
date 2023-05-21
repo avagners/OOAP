@@ -88,6 +88,12 @@ class Player(Character):
         self.sprite.center_x = self.x
         self.sprite.center_y = self.y
         self.sprite.draw()
+        # Отрисовка индикатора здоровья игрока
+        arcade.draw_text(f"Health: {self.health.get_info()}",
+                         10, 700, arcade.color.WHITE, 14)
+        # Отрисовка индикатора здоровья игрока
+        arcade.draw_text(f"Hungry: {self.hunger_indicator.get_info()}",
+                         10, 730, arcade.color.WHITE, 14)
 
 
 # Реализация класса врага
@@ -121,6 +127,3 @@ class Enemy(AbstractEnemy):
         self.sprite.center_x = self.x
         self.sprite.center_y = self.y
         self.sprite.draw()
-        # Отрисовка индикатора здоровья игрока
-        arcade.draw_text(f"Player Health: {self.health.get_info()}",
-                         10, 10, arcade.color.WHITE, 14)

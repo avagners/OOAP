@@ -102,7 +102,8 @@ class Store(ABC, Generic[T]):
     def get_items(self) -> List[AbstractItem]: ...  # список товаров в магазине
 
     @abstractmethod
-    def check_item(self, item_type: AbstractItem) -> bool: ...  # наличие предмета
+    def check_item(self, item_type: AbstractItem) -> bool: ...
+    # наличие предмета
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)
@@ -151,7 +152,8 @@ class AbstractStorage(ABC, Generic[T]):
 
     # Запросы:
     @abstractmethod
-    def get_items(self) -> List[AbstractItem]: ...  # список предметов в хранилище
+    def get_items(self) -> List[AbstractItem]: ...
+    # список предметов в хранилище
 
     # Дополнительные запросы:
     # запросы статусов (возможные значения статусов)

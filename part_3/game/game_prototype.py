@@ -24,11 +24,15 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.SKY_BLUE)
 
         # Создаем игрока
-        player_sprite = arcade.Sprite("resources/img/characters/femaleAdventurer_idle.png", scale=0.9)
+        player_sprite = arcade.Sprite(
+            "resources/img/characters/femaleAdventurer_idle.png", scale=0.9
+        )
         self.player = Player("Mira", player_sprite)
 
         # Создаем врага
-        enemy_sprite = arcade.Sprite("resources/img//enemies/robot_idle.png", scale=0.9)
+        enemy_sprite = arcade.Sprite(
+            "resources/img//enemies/robot_idle.png", scale=0.9
+        )
         self.robot = Enemy('Robot', 500, 100, enemy_sprite)
 
         # Создание монет
