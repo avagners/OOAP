@@ -42,12 +42,6 @@ class MyGame(arcade.Window):
         self.robot.draw()
         self.coin.draw()
 
-        # Отрисовка индикатора здоровья игрока
-        player_health = self.player.health.get_info()
-        arcade.draw_text(
-            f"Player Health: {player_health}", 10, 10, arcade.color.WHITE, 14
-        )
-
     def on_key_press(self, key, modifiers):
         if key == arcade.key.LEFT:
             self.player.x -= PLAYER_MOVEMENT_SPEED
